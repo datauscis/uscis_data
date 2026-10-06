@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Track U.S. employment-based Visa Bulletin final action dates, movement, and pending I-485 counts for India and China across EB-1, EB-2 and EB-3 — bulletins from Feb/2024 to Oct/2026.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="USCIS I-485 Bulletin tracker | Employment Based only">
+<meta property="og:description" content="Track U.S. employment-based Visa Bulletin final action dates, movement, and pending I-485 counts for India and China across EB-1, EB-2 and EB-3 — bulletins from Feb/2024 to Oct/2026.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101012'/%3E%3Crect x='14' y='14' width='36' height='36' rx='6' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3Cpath d='M14 26h36M32 26v24' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E">
+<title>USCIS I-485 Bulletin tracker | Employment Based only</title>
+<style>
+
+*{box-sizing:border-box}
+body{margin:0;background:#000;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1440px;margin:0 auto;padding:32px 24px 64px}
+.hero{background:linear-gradient(180deg,#1d1d1f,#101012);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:36px;box-shadow:0 8px 32px rgba(0,0,0,.6)}
+.badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#0a84ff;background:rgba(10,132,255,.14);border:1px solid rgba(10,132,255,.35);border-radius:999px;padding:6px 14px;margin-bottom:14px}
+.hero h1{margin:0 0 6px;font-size:34px;font-weight:700;letter-spacing:-.02em;background:linear-gradient(90deg,#0a84ff,#bf5af2,#ff375f);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin:0;color:#a1a1a6;font-size:15px}
+.contact{margin:8px 0 0;font-size:13px;color:#a1a1a6}
+.contact a,footer a{color:#5eb0ff}
+.linkbtn{background:none;border:none;padding:0;font:inherit;color:#5eb0ff;cursor:pointer;text-decoration:underline}
+.linkbtn:hover{color:#8ec9ff}
+.disclaimer{margin:10px 0 0;font-size:12px;line-height:1.5;color:#8e8e93;max-width:720px}
+.disclaimer strong{color:#a1a1a6}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:20px 0}
+.stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px 18px;backdrop-filter:blur(8px)}
+.stat .k{font-size:11px;font-weight:700;color:#a1a1a6;text-transform:uppercase;letter-spacing:.06em}
+.stat .v{font-size:21px;font-weight:700;margin:6px 0;letter-spacing:-.01em;color:#fff}
+.stat .v.invv{font-size:15px;line-height:1.5}
+.stat .d{display:flex;align-items:center;gap:8px;font-size:13px;color:#a1a1a6}
+.stat .blabel{font-size:11px;color:#8e8e93;margin-top:8px}
+.stat.wide{grid-column:span 2}
+.toolbar{position:sticky;top:12px;z-index:30;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:rgba(29,29,31,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:12px 16px;margin:0 0 12px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.tgroup{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tgroup.grow{flex:1;min-width:180px}
+.tlabel{font-size:11px;font-weight:700;color:#a1a1a6;text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+.tgl{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#f5f5f7;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.tgl:hover{border-color:rgba(255,255,255,.35)}
+.tgl.active{background:linear-gradient(90deg,#0a84ff,#7d5cd6);border-color:transparent;color:#fff}
+#q{width:100%;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:8px 16px;font-size:13px;font-family:inherit;background:rgba(255,255,255,.06);color:#f5f5f7}
+#q::placeholder{color:#8e8e93}
+:focus-visible{outline:2px solid #0a84ff;outline-offset:2px}
+#q:focus-visible{outline:2px solid #0a84ff;outline-offset:-1px}
+.btn{border:none;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;background:linear-gradient(90deg,#0a84ff,#7d5cd6);color:#fff;font-family:inherit}
+.btn:hover{filter:brightness(1.12)}
+.btn.ghost{background:rgba(255,255,255,.1);color:#f5f5f7}
+.legend{font-size:13px;color:#a1a1a6;margin:4px 2px 14px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.legend .hint{font-style:italic}
+.tablecard{background:#101012;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.55)}
+.tscroll{overflow:auto;max-height:76vh}
+table.tbl{border-collapse:separate;border-spacing:0;width:100%;min-width:1180px;font-size:13px}
+.tbl thead{position:sticky;top:0;z-index:5}
+.tbl th{background:#1d1d1f;border-bottom:1px solid rgba(255,255,255,.12);padding:10px 12px;font-weight:600;white-space:nowrap;text-align:center;color:#f5f5f7}
+.tbl td{border-bottom:1px solid rgba(255,255,255,.07);padding:9px 12px;white-space:nowrap;background:#101012;color:#e8e8ed}
+.tbl tbody tr:hover td{background:rgba(10,132,255,.08)}
+.tbl .sticky{position:sticky;left:0;z-index:2}
+.tbl th.sticky{background:#1d1d1f;z-index:6;box-shadow:1px 0 0 rgba(255,255,255,.12)}
+.tbl td.sticky{background:#101012;box-shadow:1px 0 0 rgba(255,255,255,.12);font-weight:700;color:#fff}
+.tbl tbody tr:hover td.sticky{background:#16161a}
+.gbtn{background:none;border:none;font:inherit;font-weight:700;font-size:14px;cursor:pointer;padding:2px 6px;border-radius:8px;letter-spacing:-.01em}
+.g-india .gbtn{color:#0a84ff}.g-inv .gbtn{color:#bf5af2}.g-china .gbtn{color:#ff9f0a}
+.gbtn:hover{background:rgba(255,255,255,.08)}
+.chev{font-size:11px;opacity:.7}
+.tbl th.chead{font-size:12px}
+.tbl th.mhead{font-size:11px;color:#a1a1a6;font-weight:600}
+.tbl th.invh{font-size:12px;color:#a1a1a6}
+td.bcol{font-weight:700}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+td.ctr{text-align:center}
+td.fad{font-variant-numeric:tabular-nums}
+.pill{display:inline-block;min-width:46px;text-align:center;font-weight:700;font-size:12px;border-radius:999px;padding:3px 10px;font-variant-numeric:tabular-nums}
+.pill.pos{color:#30d158;background:rgba(48,209,88,.14);box-shadow:0 0 12px rgba(48,209,88,.12)}
+.pill.neg{color:#ff453a;background:rgba(255,69,58,.14);box-shadow:0 0 12px rgba(255,69,58,.12)}
+.pill.zero{color:#a1a1a6;background:rgba(255,255,255,.08)}
+.na{color:#48484a}
+.uchip{display:inline-block;background:#f5f5f7;color:#000;font-weight:700;font-size:11px;border-radius:6px;padding:2px 9px;letter-spacing:.05em}
+.tbl th.chead.cat-eb1{color:#6ea8ff;background:#16283f}
+.tbl th.chead.cat-eb2{color:#cfa0ff;background:#241d42}
+.tbl th.chead.cat-eb3{color:#ffb84d;background:#2f2517}
+.tbl th.mhead.m-eb1{background:#16283f}
+.tbl th.mhead.m-eb2{background:#241d42}
+.tbl th.mhead.m-eb3{background:#2f2517}
+.tbl th.invh.cat-eb1{background:#16283f}
+.tbl th.invh.cat-eb2{background:#241d42}
+.tbl th.invh.cat-eb3{background:#2f2517}
+.tbl td.c-eb1{background:#131c2a}
+.tbl td.c-eb2{background:#181425}
+.tbl td.c-eb3{background:#1d1812}
+.tbl td.num,.tbl td.fad{text-align:center}
+.stat.sc-eb1{border-top:4px solid #0a84ff}
+.stat.sc-eb2{border-top:4px solid #bf5af2}
+.stat.sc-eb3{border-top:4px solid #ff9f0a}
+.stat.sc-inv{border-top:4px solid #30d158}
+.invlines{display:flex;flex-direction:column;gap:7px;margin:8px 0 10px}
+.invline{display:flex;justify-content:space-between;align-items:baseline}
+.invline .ik{font-size:12px;font-weight:700;letter-spacing:.04em}
+.invline .ik.eb1{color:#5eb0ff}
+.invline .ik.eb2{color:#cf8ff7}
+.invline .ik.eb3{color:#ffb340}
+.invline .iv{font-size:17px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+.tgl[data-cat="eb1"].active{background:#0a84ff;border-color:#0a84ff}
+.tgl[data-cat="eb2"].active{background:#bf5af2;border-color:#bf5af2}
+.tgl[data-cat="eb3"].active{background:#ff9f0a;border-color:#ff9f0a}
+.catchip{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:2px 9px;color:#fff;margin-right:4px}
+.catchip.c1{background:#0a84ff}.catchip.c2{background:#bf5af2}.catchip.c3{background:#ff9f0a}
+.yrow td{background:#1d1d1f!important;padding:0;border-bottom:1px solid rgba(255,255,255,.12)}
+.ybtn{display:block;width:100%;text-align:left;background:none;border:none;font-family:inherit;font-weight:700;font-size:13px;padding:10px 14px;cursor:pointer;color:#f5f5f7}
+.ycount{font-weight:400;color:#a1a1a6;font-size:12px;margin-left:8px}
+.empty{padding:32px!important;text-align:center;color:#a1a1a6;background:#101012!important}
+.notes{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:24px 28px;margin-top:20px}
+.notes h2{margin:0 0 10px;font-size:17px;letter-spacing:-.01em;color:#fff}
+.notes ul{margin:0;padding-left:20px;color:#c7c7cc;font-size:13.5px;line-height:1.65}
+.notes li{margin-bottom:6px}
+.notes a{color:#5eb0ff}
+.notes strong{color:#fff}
+footer{text-align:center;color:#48484a;font-size:12px;margin-top:24px}
+.statshead{grid-column:1/-1;display:flex;align-items:baseline;gap:10px}
+.sghead{grid-column:1/-1;font-size:16px;font-weight:700;color:#fff;margin-top:8px}
+.stats-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#a1a1a6}
+.stats-date{font-size:16px;font-weight:700;color:#fff}
+.tbl th.sortable{cursor:pointer}
+.tbl th.sortable:hover{filter:brightness(.94)}
+.sortind{font-size:10px;margin-left:5px;opacity:.85}
+.tgl[data-y].active{background:#8b5cf6;border-color:#8b5cf6}
+.tgl[data-m].active{background:#0f766e;border-color:#0f766e}
+#ygroup .tlabel{color:#a78bfa}
+#mgroup .tlabel{color:#2dd4bf}
+.timefilters{flex-direction:column;align-items:stretch;gap:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 12px}
+.toolbar{flex-direction:column;align-items:stretch}
+.frow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;width:100%}
+.frow.actionsrow{border-top:1px solid rgba(255,255,255,.1);padding-top:10px}
+.thsub{display:block;font-size:11px;font-weight:500;color:#a1a1a6;line-height:1.35}
+.timesub{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+@media (max-width:700px){
+  .wrap{padding:20px 12px 48px}
+  .hero{padding:24px 20px}
+  .hero h1{font-size:26px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:440px){
+  .hero h1{font-size:22px}
+  .stats{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>USCIS I-485 Bulletin tracker | Employment Based only</h1>
+    <p class="sub">India &amp; China &middot; EB-1 / EB-2 / EB-3 &middot; Feb 2024 &ndash; Oct 2026</p>
+    <p class="contact">Contact: <button class="linkbtn" id="emailTop">click to reveal</button></p>
+    <p class="disclaimer"><strong>Disclaimer:</strong> all data on this page is sourced from USCIS and the U.S. Department of State Visa Bulletin. The publisher makes no guarantees about its accuracy and is not responsible for any errors or omissions in the data.</p>
+  </header>
+
+  <main>
+  <section class="stats" id="stats"></section>
+
+  <div class="toolbar">
+    <div class="frow">
+      <div class="tgroup"><span class="tlabel">Countries</span>
+        <button class="tgl" data-all="groups">All</button>
+        <button class="tgl" data-none="groups">None</button>
+        <button class="tgl" data-g="india">India</button>
+        <button class="tgl" data-g="inv">India Inventory</button>
+        <button class="tgl" data-g="china">China</button>
+      </div>
+      <div class="tgroup"><span class="tlabel">Category</span>
+        <button class="tgl" data-all="cats">All</button>
+        <button class="tgl" data-none="cats">None</button>
+        <button class="tgl" data-cat="eb1">EB-1</button>
+        <button class="tgl" data-cat="eb2">EB-2</button>
+        <button class="tgl" data-cat="eb3">EB-3</button>
+      </div>
+      <div class="tgroup timefilters">
+        <div class="timesub" id="ygroup"><span class="tlabel">Years</span><button class="tgl" data-all="years">All</button><button class="tgl" data-none="years">None</button></div>
+        <div class="timesub" id="mgroup"><span class="tlabel">Months</span><button class="tgl" data-all="months">All</button><button class="tgl" data-none="months">None</button></div>
+      </div>
+    </div>
+    <div class="frow actionsrow">
+      <div class="tgroup grow"><input id="q" type="search" placeholder="Filter bulletins&hellip; e.g. 2025 or Oct" aria-label="Filter bulletins"></div>
+      <div class="tgroup">
+        <button class="btn ghost" id="reset">Reset</button>
+        <button class="btn" id="csv">Download CSV</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="legend">
+    <span><span class="pill pos">+61</span> forward movement (days)</span>
+    <span><span class="pill neg">&minus;107</span> retrogression</span>
+    <span><span class="pill zero">&plusmn;0</span> no change</span>
+    <span><span class="na">&mdash;</span> not published</span>
+    <span><span class="uchip">U</span> unavailable</span>
+    <span class="catchips"><span class="catchip c1">EB-1</span><span class="catchip c2">EB-2</span><span class="catchip c3">EB-3</span></span>
+    <span class="hint">Click a country header or a year to collapse it. Click any column header to sort.</span>
+  </p>
+
+  <div class="tablecard"><div class="tscroll"><table class="tbl" id="tbl" aria-label="Visa bulletin data by country, category and bulletin month"></table></div></div>
+
+  <section class="notes">
+    <h2>About this data</h2>
+    <ul>
+      <li><strong>Coverage:</strong> employment-based visa bulletins from <strong>Feb/2024</strong> through <strong>Oct/2026</strong> (33 bulletins) for <strong>India</strong> and <strong>China</strong> across <strong>EB-1</strong>, <strong>EB-2</strong> and <strong>EB-3</strong>.</li>
+      <li><strong>Final Action Dates</strong> come from the U.S. Department of State's monthly Visa Bulletin; <strong>Pending I-485</strong> counts come from USCIS inventory data, as of each row's Final Action Date.</li>
+      <li><strong>Movement</strong> is the change in the Final Action Date versus the previous bulletin, in days. Feb/2024 is the first row in this table, so it has no movement value.</li>
+      <li><strong>India Pending Inventory</strong> is the USCIS pending I-485 inventory snapshot for India as of the bulletin date. An em dash (&mdash;) means no data was reported for that month; a hyphen (-) means the reported count was zero.</li>
+      <li><strong>U</strong> = Unavailable &mdash; India EB-2 was unavailable from Jul/2026 through Sep/2026.</li>
+      <li>This is an unofficial tracker for reference only. Always confirm against the official <a href="https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/" target="_blank" rel="noopener">Visa Bulletin</a>.</li>
+      <li><strong>Disclaimer:</strong> all data on this page is sourced from USCIS and the U.S. Department of State Visa Bulletin. The publisher makes no guarantees about its accuracy and is not responsible for any errors or omissions in the data.</li>
+    </ul>
+  </section>
+  </main>
+  <footer>Covering visa bulletins Feb/2024 &ndash; Oct/2026 &middot; 33 bulletins &middot; Contact: <button class="linkbtn" id="emailBot">click to reveal</button></footer>
+</div>
+<script>
+
+var DATA = [{"b": "Feb/2024", "india": {"eb1": {"f": "1-Sep-2020", "m": null, "p": 3757}, "eb2": {"f": "1-Mar-2012", "m": null, "p": 1396}, "eb3": {"f": "1-Jul-2012", "m": null, "p": 1958}}, "inv": {"eb1": 16453, "eb2": 35507, "eb3": 19481}, "china": {"eb1": {"f": "1-Jul-2022", "m": null, "p": 2812}, "eb2": {"f": "01Jan20", "m": null, "p": 4224}, "eb3": {"f": "01Sep20", "m": null, "p": 5138}}}, {"b": "Mar/2024", "india": {"eb1": {"f": "1-Oct-2020", "m": 30, "p": 3941}, "eb2": {"f": "1-Mar-2012", "m": 0, "p": 1292}, "eb3": {"f": "1-Jul-2012", "m": 0, "p": 1845}}, "inv": {"eb1": 16718, "eb2": 35353, "eb3": 19294}, "china": {"eb1": {"f": "15-Jul-2022", "m": 14, "p": 2638}, "eb2": {"f": "01Jan20", "m": 0, "p": 3732}, "eb3": {"f": "01Sep20", "m": 0, "p": 5040}}}, {"b": "Apr/2024", "india": {"eb1": {"f": "1-Mar-2021", "m": 151, "p": 4283}, "eb2": {"f": "15-Apr-2012", "m": 45, "p": 1540}, "eb3": {"f": "15-Aug-2012", "m": 45, "p": 2155}}, "inv": {"eb1": 16514, "eb2": 35236, "eb3": 19170}, "china": {"eb1": {"f": "1-Sep-2022", "m": 48, "p": 3091}, "eb2": {"f": "01Feb20", "m": 31, "p": 3419}, "eb3": {"f": "01Sep20", "m": 0, "p": 4709}}}, {"b": "May/2024", "india": {"eb1": {"f": "1-Mar-2021", "m": 0, "p": 3336}, "eb2": {"f": "15-Apr-2012", "m": 0, "p": 1155}, "eb3": {"f": "15-Aug-2012", "m": 0, "p": 1610}}, "inv": {"eb1": 15537, "eb2": 34513, "eb3": 18498}, "china": {"eb1": {"f": "1-Sep-2022", "m": 0, "p": 2386}, "eb2": {"f": "01Feb20", "m": 0, "p": 2326}, "eb3": {"f": "01Sep20", "m": 0, "p": 3062}}}, {"b": "Jun/2024", "india": {"eb1": {"f": "1-Mar-2021", "m": 0, "p": 3075}, "eb2": {"f": "15-Apr-2012", "m": 0, "p": 1176}, "eb3": {"f": "22-Aug-2012", "m": 7, "p": 1751}}, "inv": {"eb1": 15289, "eb2": 34691, "eb3": 18770}, "china": {"eb1": {"f": "1-Sep-2022", "m": 0, "p": 2327}, "eb2": {"f": "01Feb20", "m": 0, "p": 2210}, "eb3": {"f": "01Sep20", "m": 0, "p": 3426}}}, {"b": "Jul/2024", "india": {"eb1": {"f": "1-Feb-2022", "m": 337, "p": 5530}, "eb2": {"f": "15-Jun-2012", "m": 61, "p": 1782}, "eb3": {"f": "22-Sep-2012", "m": 31, "p": 1902}}, "inv": {"eb1": 15940, "eb2": 34410, "eb3": 18539}, "china": {"eb1": {"f": "1-Nov-2022", "m": 61, "p": 3127}, "eb2": {"f": "01Mar20", "m": 29, "p": 2360}, "eb3": {"f": "01Sep20", "m": 0, "p": 3162}}}, {"b": "Aug/2024", "india": {"eb1": {"f": "1-Feb-2022", "m": 0, "p": 4446}, "eb2": {"f": "15-Jul-2012", "m": 30, "p": 1790}, "eb3": {"f": "22-Oct-2012", "m": 30, "p": 1811}}, "inv": {"eb1": 14861, "eb2": 33818, "eb3": 18121}, "china": {"eb1": {"f": "1-Nov-2022", "m": 0, "p": 2275}, "eb2": {"f": "01Mar20", "m": 0, "p": 1781}, "eb3": {"f": "01Sep20", "m": 0, "p": 2453}}}, {"b": "Sep/2024", "india": {"eb1": {"f": "1-Feb-2022", "m": 0, "p": 4189}, "eb2": {"f": "15-Jul-2012", "m": 0, "p": 1317}, "eb3": {"f": "22-Oct-2012", "m": 0, "p": 1526}}, "inv": {"eb1": 14592, "eb2": 33229, "eb3": 17770}, "china": {"eb1": {"f": "1-Nov-2022", "m": 0, "p": 1905}, "eb2": {"f": "01Mar20", "m": 0, "p": 1396}, "eb3": {"f": "01Sep20", "m": 0, "p": 2181}}}, {"b": "Oct/2024", "india": {"eb1": {"f": "1-Feb-2022", "m": 0, "p": 4766}, "eb2": {"f": "15-Jul-2012", "m": 0, "p": 1108}, "eb3": {"f": "1-Nov-2012", "m": 10, "p": 1699}}, "inv": {"eb1": 15141, "eb2": 32956, "eb3": 17630}, "china": {"eb1": {"f": "8-Nov-2022", "m": 7, "p": 1946}, "eb2": {"f": "22Mar20", "m": 21, "p": 1386}, "eb3": {"f": "01Apr20", "m": -153, "p": 1018}}}, {"b": "Nov/2024", "india": {"eb1": {"f": "1-Feb-2022", "m": 0, "p": 4612}, "eb2": {"f": "15-Jul-2012", "m": 0, "p": 1004}, "eb3": {"f": "1-Nov-2012", "m": 0, "p": 1605}}, "inv": {"eb1": 15019, "eb2": 32828, "eb3": 17700}, "china": {"eb1": {"f": "8-Nov-2022", "m": 0, "p": 1916}, "eb2": {"f": "22Mar20", "m": 0, "p": 1280}, "eb3": {"f": "01Apr20", "m": 0, "p": 872}}}, {"b": "Dec/2024", "india": {"eb1": {"f": "1-Feb-2022", "m": 0, "p": 4684}, "eb2": {"f": "1-Aug-2012", "m": 17, "p": 1443}, "eb3": {"f": "8-Nov-2012", "m": 7, "p": 1487}}, "inv": {"eb1": 15162, "eb2": 32833, "eb3": 17882}, "china": {"eb1": {"f": "8-Nov-2022", "m": 0, "p": 1881}, "eb2": {"f": "22Mar20", "m": 0, "p": 1203}, "eb3": {"f": "01Apr20", "m": 0, "p": 796}}}, {"b": "Jan/2025", "india": {"eb1": {"f": "1-Feb-2022", "m": 0, "p": 4908}, "eb2": {"f": "1-Oct-2012", "m": 61, "p": 2446}, "eb3": {"f": "1-Dec-2012", "m": 23, "p": 1782}}, "inv": {"eb1": 15419, "eb2": 32765, "eb3": 17945}, "china": {"eb1": {"f": "8-Nov-2022", "m": 0, "p": 1854}, "eb2": {"f": "22Apr20", "m": 31, "p": 1566}, "eb3": {"f": "01Jun20", "m": 61, "p": 1139}}}, {"b": "Feb/2025", "india": {"eb1": {"f": "1-Feb-2022", "m": 0, "p": 4856}, "eb2": {"f": "15-Oct-2012", "m": 14, "p": 2312}, "eb3": {"f": "15-Dec-2012", "m": 14, "p": 1621}}, "inv": {"eb1": 15395, "eb2": 32628, "eb3": 17879}, "china": {"eb1": {"f": "8-Nov-2022", "m": 0, "p": 1872}, "eb2": {"f": "22Apr20", "m": 0, "p": 1410}, "eb3": {"f": "01Jul20", "m": 30, "p": 1244}}}, {"b": "Mar/2025", "india": {"eb1": {"f": "1-Feb-2022", "m": 0, "p": 5007}, "eb2": {"f": "1-Dec-2012", "m": 47, "p": 3406}, "eb3": {"f": "1-Feb-2013", "m": 48, "p": 2809}}, "inv": {"eb1": 15558, "eb2": 32146, "eb3": 17890}, "china": {"eb1": {"f": "8-Nov-2022", "m": 0, "p": 1878}, "eb2": {"f": "08May20", "m": 16, "p": 1582}, "eb3": {"f": "01Aug20", "m": 31, "p": 1307}}}, {"b": "Apr/2025", "india": {"eb1": {"f": "15-Feb-2022", "m": 14, "p": 4978}, "eb2": {"f": "1-Jan-2013", "m": 31, "p": 3735}, "eb3": {"f": "1-Apr-2013", "m": 59, "p": 3400}}, "inv": {"eb1": 15530, "eb2": 31513, "eb3": 17474}, "china": {"eb1": {"f": "8-Nov-2022", "m": 0, "p": 1862}, "eb2": {"f": "01Oct20", "m": 146, "p": 2326}, "eb3": {"f": "01Nov20", "m": 92, "p": 2507}}}, {"b": "May/2025", "india": {"eb1": {"f": "15-Feb-2022", "m": 0, "p": 4963}, "eb2": {"f": "1-Jan-2013", "m": 0, "p": 2919}, "eb3": {"f": "15-Apr-2013", "m": 14, "p": 2811}}, "inv": {"eb1": 15500, "eb2": 30625, "eb3": 16827}, "china": {"eb1": {"f": "8-Nov-2022", "m": 0, "p": 1830}, "eb2": {"f": "01Oct20", "m": 0, "p": 2095}, "eb3": {"f": "01Nov20", "m": 0, "p": 2248}}}, {"b": "Jun/2025", "india": {"eb1": {"f": "15-Feb-2022", "m": 0, "p": null}, "eb2": {"f": "1-Jan-2013", "m": 0, "p": null}, "eb3": {"f": "15-Apr-2013", "m": 0, "p": null}}, "inv": {"eb1": null, "eb2": null, "eb3": null}, "china": {"eb1": {"f": "8-Nov-2022", "m": 0, "p": null}, "eb2": {"f": "01Dec20", "m": 61, "p": null}, "eb3": {"f": "22Nov20", "m": 21, "p": null}}}, {"b": "Jul/2025", "india": {"eb1": {"f": "15-Feb-2022", "m": 0, "p": null}, "eb2": {"f": "1-Jan-2013", "m": 0, "p": null}, "eb3": {"f": "22-Apr-2013", "m": 7, "p": null}}, "inv": {"eb1": null, "eb2": null, "eb3": null}, "china": {"eb1": {"f": "15-Nov-2022", "m": 7, "p": null}, "eb2": {"f": "15Dec20", "m": 14, "p": null}, "eb3": {"f": "01Dec20", "m": 9, "p": null}}}, {"b": "Aug/2025", "india": {"eb1": {"f": "15-Feb-2022", "m": 0, "p": 5232}, "eb2": {"f": "1-Jan-2013", "m": 0, "p": 1577}, "eb3": {"f": "22-May-2013", "m": 30, "p": 2074}}, "inv": {"eb1": 15733, "eb2": 28753, "eb3": 15567}, "china": {"eb1": {"f": "15-Nov-2022", "m": 0, "p": 1629}, "eb2": {"f": "15Dec20", "m": 0, "p": 2091}, "eb3": {"f": "01Dec20", "m": 0, "p": 2135}}}, {"b": "Sep/2025", "india": {"eb1": {"f": "15-Feb-2022", "m": 0, "p": 4775}, "eb2": {"f": "1-Jan-2013", "m": 0, "p": 1364}, "eb3": {"f": "22-May-2013", "m": 0, "p": 1572}}, "inv": {"eb1": 15274, "eb2": 28325, "eb3": 15049}, "china": {"eb1": {"f": "15-Nov-2022", "m": 0, "p": 1485}, "eb2": {"f": "15Dec20", "m": 0, "p": 1974}, "eb3": {"f": "01Dec20", "m": 0, "p": 1908}}}, {"b": "Oct/2025", "india": {"eb1": {"f": "15-Feb-2022", "m": 0, "p": 4920}, "eb2": {"f": "1-Apr-2013", "m": 90, "p": 3037}, "eb3": {"f": "22-Aug-2013", "m": 92, "p": 2624}}, "inv": {"eb1": 15412, "eb2": 28080, "eb3": 14965}, "china": {"eb1": {"f": "22-Dec-2022", "m": 37, "p": 2114}, "eb2": {"f": "01Apr21", "m": 107, "p": 2157}, "eb3": {"f": "01Mar21", "m": 90, "p": 2924}}}, {"b": "Nov/2025", "india": {"eb1": {"f": "15-Feb-2022", "m": 0, "p": 4706}, "eb2": {"f": "1-Apr-2013", "m": 0, "p": 2625}, "eb3": {"f": "22-Aug-2013", "m": 0, "p": 2419}}, "inv": {"eb1": 18322, "eb2": 28031, "eb3": 15431}, "china": {"eb1": {"f": "22-Dec-2022", "m": 0, "p": 1852}, "eb2": {"f": "01Apr21", "m": 0, "p": 2608}, "eb3": {"f": "01Mar21", "m": 0, "p": 2547}}}, {"b": "Dec/2025", "india": {"eb1": {"f": "15-Mar-2022", "m": 28, "p": 5918}, "eb2": {"f": "15-May-2013", "m": 44, "p": 2815}, "eb3": {"f": "22-Sep-2013", "m": 31, "p": 3090}}, "inv": {"eb1": 21386, "eb2": 27820, "eb3": 16681}, "china": {"eb1": {"f": "22-Jan-2023", "m": 31, "p": 2228}, "eb2": {"f": "01Jun21", "m": 61, "p": 3489}, "eb3": {"f": "01Apr21", "m": 31, "p": 2966}}}, {"b": "Jan/2026", "india": {"eb1": {"f": "1-Feb-2023", "m": 323, "p": 19903}, "eb2": {"f": "15-Jul-2013", "m": 61, "p": 3979}, "eb3": {"f": "15-Nov-2013", "m": 54, "p": 3799}}, "inv": {"eb1": 21889, "eb2": 27401, "eb3": 16736}, "china": {"eb1": {"f": "1-Feb-2023", "m": 10, "p": 2628}, "eb2": {"f": "01Sep21", "m": 92, "p": 5133}, "eb3": {"f": "01May21", "m": 30, "p": 3153}}}, {"b": "Feb/2026", "india": {"eb1": {"f": "1-Feb-2023", "m": 0, "p": 19325}, "eb2": {"f": "15-Jul-2013", "m": 0, "p": 3442}, "eb3": {"f": "15-Nov-2013", "m": 0, "p": 3353}}, "inv": {"eb1": 22335, "eb2": 26679, "eb3": 16645}, "china": {"eb1": {"f": "1-Feb-2023", "m": 0, "p": 2509}, "eb2": {"f": "01Sep21", "m": 0, "p": 5010}, "eb3": {"f": "01May21", "m": 0, "p": 2896}}}, {"b": "Mar/2026", "india": {"eb1": {"f": "1-Mar-2023", "m": 28, "p": 19054}, "eb2": {"f": "15-Sep-2013", "m": 62, "p": 5168}, "eb3": {"f": "15-Nov-2013", "m": 0, "p": 2943}}, "inv": {"eb1": 22310, "eb2": 25951, "eb3": 16313}, "china": {"eb1": {"f": "1-Mar-2023", "m": 28, "p": 3090}, "eb2": {"f": "01Sep21", "m": 0, "p": 4546}, "eb3": {"f": "01May21", "m": 0, "p": 2681}}}, {"b": "Apr/2026", "india": {"eb1": {"f": "1-Apr-2023", "m": 31, "p": 16560}, "eb2": {"f": "15-Jul-2014", "m": 303, "p": 17474}, "eb3": {"f": "15-Nov-2013", "m": 0, "p": 2312}}, "inv": {"eb1": 20850, "eb2": 25485, "eb3": 15738}, "china": {"eb1": {"f": "1-Apr-2023", "m": 31, "p": 3201}, "eb2": {"f": "01Sep21", "m": 0, "p": 3833}, "eb3": {"f": "15Jun21", "m": 45, "p": 2966}}}, {"b": "May/2026", "india": {"eb1": {"f": "1-Apr-2023", "m": 0, "p": 14011}, "eb2": {"f": "15-Jul-2014", "m": 0, "p": 17058}, "eb3": {"f": "15-Nov-2013", "m": 0, "p": 2147}}, "inv": {"eb1": 22052, "eb2": 28179, "eb3": 16143}, "china": {"eb1": {"f": "1-Apr-2023", "m": 0, "p": 2917}, "eb2": {"f": "01Sep21", "m": 0, "p": 3589}, "eb3": {"f": "15Jun21", "m": 0, "p": 2598}}}, {"b": "Jun/2026", "india": {"eb1": {"f": "15-Dec-2022", "m": -107, "p": 11007}, "eb2": {"f": "1-Sep-2013", "m": -317, "p": 4568}, "eb3": {"f": "15-Dec-2013", "m": 30, "p": 3217}}, "inv": {"eb1": 22825, "eb2": 30305, "eb3": 16699}, "china": {"eb1": {"f": "1-Apr-2023", "m": 0, "p": 2943}, "eb2": {"f": "01Sep21", "m": 0, "p": 3691}, "eb3": {"f": "01Aug21", "m": 47, "p": 3184}}}, {"b": "Jul/2026", "india": {"eb1": {"f": "15-Oct-2022", "m": -61, "p": 6740}, "eb2": {"f": "U", "m": null, "p": 0}, "eb3": {"f": "1-Jan-2014", "m": 17, "p": 3410}}, "inv": {"eb1": 19995, "eb2": 27952, "eb3": 16047}, "china": {"eb1": {"f": "1-Jun-2023", "m": 61, "p": 4087}, "eb2": {"f": "01Sep21", "m": 0, "p": 3260}, "eb3": {"f": "22Dec21", "m": 143, "p": 4013}}}, {"b": "Aug/2026", "india": {"eb1": {"f": "15-Oct-2022", "m": 0, "p": 6051}, "eb2": {"f": "U", "m": null, "p": 0}, "eb3": {"f": "1-Jan-2014", "m": 0, "p": 3221}}, "inv": {"eb1": 19261, "eb2": 27736, "eb3": 15843}, "china": {"eb1": {"f": "1-Jul-2023", "m": 30, "p": 4383}, "eb2": {"f": "01Sep21", "m": 0, "p": 2969}, "eb3": {"f": "01Jan22", "m": 10, "p": 3654}}}, {"b": "Sep/2026", "india": {"eb1": {"f": "15-Oct-2022", "m": 0, "p": null}, "eb2": {"f": "U", "m": null, "p": null}, "eb3": {"f": "1-Jan-2014", "m": 0, "p": null}}, "inv": {"eb1": null, "eb2": null, "eb3": null}, "china": {"eb1": {"f": "1-Jul-2023", "m": 0, "p": null}, "eb2": {"f": "01Sep21", "m": 0, "p": null}, "eb3": {"f": "01Jan22", "m": 0, "p": null}}}, {"b": "Oct/2026", "india": {"eb1": {"f": "1-Feb-2023", "m": 109, "p": 6585}, "eb2": {"f": "1-Nov-2013", "m": 61, "p": 4570}, "eb3": {"f": "1-Jan-2014", "m": 0, "p": 2448}}, "inv": {"eb1": null, "eb2": null, "eb3": null}, "china": {"eb1": {"f": "01Jul23", "m": 0, "p": 3773}, "eb2": {"f": "01Oct21", "m": 30, "p": 2412}, "eb3": {"f": "08Jan22", "m": 7, "p": 3654}}}];
+var GROUPS = [
+  {id:'india', label:'India'},
+  {id:'inv', label:'India Pending Inventory (as of Bulletin date)'},
+  {id:'china', label:'China'}
+];
+var CATS = ['eb1','eb2','eb3'];
+var CAT_LABEL = {eb1:'EB-1', eb2:'EB-2', eb3:'EB-3'};
+var YEARS = [];
+DATA.forEach(function(r){ var y = r.b.split('/')[1]; if(YEARS.indexOf(y)===-1) YEARS.push(y); });
+var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var state = { groups:{india:true, inv:true, china:true}, cats:{eb1:true, eb2:true, eb3:true}, q:'', years:{}, months:{}, sort:{key:null, dir:1} };
+YEARS.forEach(function(y){ state.years[y] = true; });
+MONTHS.forEach(function(m){ state.months[m] = true; });
+
+function fmt(n){ if(n===0) return '-'; return (n===null||n===undefined) ? '\u2014' : Number(n).toLocaleString('en-US'); }
+function movPill(m){
+  if(m===null||m===undefined) return '<span class="na">\u2014</span>';
+  if(m>0) return '<span class="pill pos">+'+m+'</span>';
+  if(m<0) return '<span class="pill neg">\u2212'+Math.abs(m)+'</span>';
+  return '<span class="pill zero">\u00B10</span>';
+}
+function visibleCols(){
+  var cols = [];
+  for(var gi=0; gi<GROUPS.length; gi++){
+    var g = GROUPS[gi];
+    if(!state.groups[g.id]) continue;
+    for(var ci=0; ci<CATS.length; ci++){
+      var c = CATS[ci];
+      if(!state.cats[c]) continue;
+      if(g.id==='inv') cols.push({g:g.id, cat:c, metric:'inv'});
+      else { cols.push({g:g.id,cat:c,metric:'fad'}); cols.push({g:g.id,cat:c,metric:'mov'}); cols.push({g:g.id,cat:c,metric:'pend'}); }
+    }
+  }
+  return cols;
+}
+function matchQ(r){ return !state.q || r.b.toLowerCase().indexOf(state.q)!==-1; }
+function matchRow(r){
+  var parts = r.b.split('/');
+  return !!state.months[parts[0]] && matchQ(r);
+}
+var MON = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+function parseFAD(s){
+  if(!s || s==='U') return null;
+  var m = s.match(/(\d{1,2})[^A-Za-z0-9]?([A-Za-z]{3})[^A-Za-z0-9]?(\d{2,4})/);
+  if(!m) return null;
+  var y = parseInt(m[3],10); if(y<100) y += 2000;
+  var mo = MON[m[2].toLowerCase()];
+  if(mo===undefined) return null;
+  return y*10000 + mo*100 + parseInt(m[1],10);
+}
+function sortVal(r, key){
+  if(key==='bulletin'){
+    var p = r.b.split('/');
+    return parseInt(p[1],10)*12 + MON[p[0].toLowerCase()];
+  }
+  var a = key.split('|');
+  if(a[0]==='inv') return r.inv[a[1]];
+  var cell = r[a[0]][a[1]];
+  if(a[2]==='fad') return parseFAD(cell.f);
+  if(a[2]==='mov') return cell.m;
+  return cell.p;
+}
+function cmpRows(ra, rb){
+  var va = sortVal(ra, state.sort.key), vb = sortVal(rb, state.sort.key);
+  var an = (va===null||va===undefined), bn = (vb===null||vb===undefined);
+  if(an && bn) return 0;
+  if(an) return 1;
+  if(bn) return -1;
+  if(va<vb) return -1*state.sort.dir;
+  if(va>vb) return 1*state.sort.dir;
+  return 0;
+}
+function toggleSort(key){
+  if(!state.sort.key || state.sort.key!==key){ state.sort.key = key; state.sort.dir = 1; }
+  else if(state.sort.dir===1){ state.sort.dir = -1; }
+  else { state.sort.key = null; state.sort.dir = 1; }
+}
+function sortInd(key){
+  if(!state.sort.key || state.sort.key!==key) return '';
+  return '<span class="sortind">'+(state.sort.dir===1?'▲':'▼')+'</span>';
+}
+function sortAttrs(key){
+  var a = ' tabindex="0"';
+  if(state.sort.key===key) a += ' aria-sort="'+(state.sort.dir===1?'ascending':'descending')+'"';
+  return a;
+}
+function rowHtml(r, cols){
+  var s = '<tr><td class="sticky bcol">'+r.b+'</td>';
+  for(var i=0;i<cols.length;i++){
+    var c = cols[i];
+    if(c.metric==='inv'){ s += '<td class="num c-'+c.cat+'">'+fmt(r.inv[c.cat])+'</td>'; continue; }
+    var cell = r[c.g][c.cat];
+    if(c.metric==='fad'){
+      s += (cell.f==='U') ? '<td class="fad c-'+c.cat+'"><span class="uchip">U</span></td>' : '<td class="fad c-'+c.cat+'">'+(cell.f||'\u2014')+'</td>';
+    } else if(c.metric==='mov'){ s += '<td class="ctr c-'+c.cat+'">'+movPill(cell.m)+'</td>'; }
+    else { s += '<td class="num c-'+c.cat+'">'+fmt(cell.p)+'</td>'; }
+  }
+  return s+'</tr>';
+}
+function render(){
+  var cols = visibleCols();
+  var tbl = document.getElementById('tbl');
+  if(!cols.length){
+    tbl.innerHTML = '<tbody><tr><td class="empty">Select at least one country group and category above to show the table.</td></tr></tbody>';
+    syncToolbar(); return;
+  }
+  var h1 = '<thead><tr><th class="sticky corner sortable" scope="col" rowspan="3" data-sort="bulletin" title="Sort by bulletin"'+sortAttrs('bulletin')+'>Bulletin'+sortInd('bulletin')+'</th>';
+  var h2 = '<tr>';
+  var h3 = '<tr>';
+  for(var gi=0; gi<GROUPS.length; gi++){
+    var g = GROUPS[gi];
+    if(!state.groups[g.id]) continue;
+    var gc = cols.filter(function(c){return c.g===g.id;});
+    if(!gc.length) continue;
+    h1 += '<th class="ghead g-'+g.id+'" scope="col" colspan="'+gc.length+'"><button class="gbtn" data-g="'+g.id+'" title="Collapse this group">'+g.label+' <span class="chev">\u25BE</span></button></th>';
+    for(var ci=0; ci<CATS.length; ci++){
+      var c = CATS[ci];
+      if(!state.cats[c]) continue;
+      if(g.id==='inv'){ h2 += '<th class="chead invh cat-'+c+' sortable" scope="col" rowspan="2" data-sort="inv|'+c+'" title="Sort by '+CAT_LABEL[c]+' inventory"'+sortAttrs('inv|'+c)+'>'+CAT_LABEL[c]+sortInd('inv|'+c)+'</th>'; }
+      else {
+        h2 += '<th class="chead cat-'+c+'" colspan="3">'+CAT_LABEL[c]+'</th>';
+        h3 += '<th class="mhead m-'+c+' sortable" scope="col" data-sort="'+g.id+'|'+c+'|fad" title="Sort by final action date"'+sortAttrs(g.id+'|'+c+'|fad')+'>Final Action Date'+sortInd(g.id+'|'+c+'|fad')+'</th><th class="mhead m-'+c+' sortable" scope="col" data-sort="'+g.id+'|'+c+'|mov" title="Sort by movement (change vs prior bulletin, in days)"'+sortAttrs(g.id+'|'+c+'|mov')+'>Movement'+sortInd(g.id+'|'+c+'|mov')+'</th><th class="mhead m-'+c+' sortable" scope="col" data-sort="'+g.id+'|'+c+'|pend" title="Sort by Pending I-485 (as of FAD)"'+sortAttrs(g.id+'|'+c+'|pend')+'>Pending I-485'+sortInd(g.id+'|'+c+'|pend')+'<span class="thsub">(as of FAD)</span></th>';
+      }
+    }
+  }
+  h1 += '</tr>' + h2 + '</tr>' + h3 + '</tr></thead>';
+  if(state.sort.key && state.sort.key!=='bulletin'){
+    var kk = state.sort.key.split('|');
+    if(!state.groups[kk[0]] || !state.cats[kk[1]]) state.sort = {key:null, dir:1};
+  }
+  var body = '';
+  if(state.sort.key){
+    var srows = DATA.filter(matchRow).sort(cmpRows);
+    for(var si=0; si<srows.length; si++) body += rowHtml(srows[si], cols);
+  } else {
+  for(var yi=0; yi<YEARS.length; yi++){
+    var y = YEARS[yi];
+    var rows = DATA.filter(function(r){ return r.b.split('/')[1]===y && matchRow(r); });
+    if(!rows.length) continue;
+    var open = state.years[y];
+    body += '<tr class="yrow"><td colspan="'+(1+cols.length)+'"><button class="ybtn" data-y="'+y+'"><span class="chev">'+(open?'\u25BE':'\u25B8')+'</span> '+y+' <span class="ycount">'+rows.length+' bulletins</span></button></td></tr>';
+    if(open){ for(var ri=0; ri<rows.length; ri++) body += rowHtml(rows[ri], cols); }
+  }
+  }
+  if(!body) body = '<tr><td class="empty" colspan="'+(1+cols.length)+'">No bulletins match the current filters.</td></tr>';
+  tbl.innerHTML = h1 + '<tbody>' + body + '</tbody>';
+  syncToolbar();
+}
+function renderStats(){
+  var last = DATA[DATA.length-1];
+  var invRow = null;
+  for(var i=DATA.length-1;i>=0;i--){ if(DATA[i].inv.eb1!==null){ invRow=DATA[i]; break; } }
+  var html = '<div class="statshead"><span class="stats-title">Latest bulletin</span><span class="stats-date">'+last.b+'</span></div>';
+  var order = [['india','India'],['china','China']];
+  for(var oi=0; oi<order.length; oi++){
+    var gid = order[oi][0], gl = order[oi][1];
+    html += '<div class="sghead">'+gl+'</div>';
+    for(var ci=0; ci<CATS.length; ci++){
+      var cell = last[gid][CATS[ci]];
+      html += '<div class="stat sc-'+CATS[ci]+'"><div class="k">'+CAT_LABEL[CATS[ci]]+'</div><div class="v">'+(cell.f||'\u2014')+'</div><div class="d">'+movPill(cell.m)+'<span class="pend">'+fmt(cell.p)+' pending</span></div></div>';
+    }
+    if(gid==='india' && invRow){
+      html += '<div class="stat sc-inv"><div class="k">Inventory</div><div class="invlines">'
+        + '<div class="invline"><span class="ik eb1">EB-1</span><span class="iv">'+fmt(invRow.inv.eb1)+'</span></div>'
+        + '<div class="invline"><span class="ik eb2">EB-2</span><span class="iv">'+fmt(invRow.inv.eb2)+'</span></div>'
+        + '<div class="invline"><span class="ik eb3">EB-3</span><span class="iv">'+fmt(invRow.inv.eb3)+'</span></div>'
+        + '</div><div class="d"><span class="pend">as of '+invRow.b+'</span></div></div>';
+    }
+  }
+  document.getElementById('stats').innerHTML = html;
+}
+function syncToolbar(){
+  var tgls = document.querySelectorAll('[data-g].tgl');
+  for(var i=0;i<tgls.length;i++) tgls[i].classList.toggle('active', !!state.groups[tgls[i].getAttribute('data-g')]);
+  var cats = document.querySelectorAll('[data-cat].tgl');
+  for(var j=0;j<cats.length;j++) cats[j].classList.toggle('active', !!state.cats[cats[j].getAttribute('data-cat')]);
+  var yrs = document.querySelectorAll('[data-y].tgl');
+  for(var k=0;k<yrs.length;k++) yrs[k].classList.toggle('active', !!state.years[yrs[k].getAttribute('data-y')]);
+  var mos = document.querySelectorAll('[data-m].tgl');
+  for(var mi=0;mi<mos.length;mi++) mos[mi].classList.toggle('active', !!state.months[mos[mi].getAttribute('data-m')]);
+  var alls = document.querySelectorAll('[data-all].tgl');
+  for(var ai=0;ai<alls.length;ai++){
+    var ak2 = alls[ai].getAttribute('data-all');
+    var on = true;
+    if(ak2==='groups') on = state.groups.india && state.groups.inv && state.groups.china;
+    else if(ak2==='cats') on = state.cats.eb1 && state.cats.eb2 && state.cats.eb3;
+    else if(ak2==='years') on = YEARS.every(function(y){ return state.years[y]; });
+    else if(ak2==='months') on = MONTHS.every(function(m){ return state.months[m]; });
+    alls[ai].classList.toggle('active', !!on);
+  }
+  var nones = document.querySelectorAll('[data-none].tgl');
+  for(var ni=0;ni<nones.length;ni++){
+    var nk2 = nones[ni].getAttribute('data-none');
+    var off = true;
+    if(nk2==='groups') off = !state.groups.india && !state.groups.inv && !state.groups.china;
+    else if(nk2==='cats') off = !state.cats.eb1 && !state.cats.eb2 && !state.cats.eb3;
+    else if(nk2==='years') off = YEARS.every(function(y){ return !state.years[y]; });
+    else if(nk2==='months') off = MONTHS.every(function(m){ return !state.months[m]; });
+    nones[ni].classList.toggle('active', !!off);
+  }
+}
+function downloadCSV(){
+  var head = ['Bulletin'];
+  var order = [['india','India'],['inv','India Pending Inventory (as of Bulletin date)'],['china','China']];
+  for(var oi=0; oi<order.length; oi++){
+    var gid = order[oi][0], gl = order[oi][1];
+    for(var ci=0; ci<CATS.length; ci++){
+      var cl = CAT_LABEL[CATS[ci]];
+      if(gid==='inv') head.push(gl+' '+cl);
+      else { head.push(gl+' '+cl+' FAD'); head.push(gl+' '+cl+' Movement (days)'); head.push(gl+' '+cl+' Pending I-485 (as of FAD)'); }
+    }
+  }
+  var lines = [head.join(',')];
+  for(var i=0;i<DATA.length;i++){
+    var r = DATA[i], row = [r.b];
+    for(var oj=0; oj<order.length; oj++){
+      var g2 = order[oj][0];
+      for(var cj=0; cj<CATS.length; cj++){
+        var cc = CATS[cj];
+        if(g2==='inv'){ row.push((r.inv[cc]===null||r.inv[cc]===undefined)?'':r.inv[cc]); }
+        else { var cell=r[g2][cc]; row.push(cell.f||''); row.push((cell.m===null||cell.m===undefined)?'':cell.m); row.push((cell.p===null||cell.p===undefined)?'':cell.p); }
+      }
+    }
+    lines.push(row.join(','));
+  }
+  var blob = new Blob([lines.join('\n')], {type:'text/csv'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'visa-bulletin-india-china-feb2024-oct2026.csv';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+function emailAddr(){ return String.fromCharCode.apply(null,[100,97,116,97,117,115,99,105,115,64,103,109,97,105,108,46,99,111,109]); }
+function revealEmail(btn){
+  var e = emailAddr();
+  var a = document.createElement('a');
+  a.href = 'mailto:'+e;
+  a.textContent = e;
+  btn.parentNode.replaceChild(a, btn);
+}
+function init(){
+  var yg = document.getElementById('ygroup');
+  var yhtml = '';
+  for(var i=0;i<YEARS.length;i++) yhtml += '<button class="tgl" data-y="'+YEARS[i]+'">'+YEARS[i]+'</button>';
+  yg.insertAdjacentHTML('beforeend', yhtml);
+  var mg = document.getElementById('mgroup');
+  var mhtml = '';
+  for(var mi2=0;mi2<MONTHS.length;mi2++) mhtml += '<button class="tgl" data-m="'+MONTHS[mi2]+'">'+MONTHS[mi2]+'</button>';
+  mg.insertAdjacentHTML('beforeend', mhtml);
+  var et = document.getElementById('emailTop');
+  if(et) et.addEventListener('click', function(){ revealEmail(et); });
+  var eb = document.getElementById('emailBot');
+  if(eb) eb.addEventListener('click', function(){ revealEmail(eb); });
+  document.addEventListener('click', function(e){
+    var nl = e.target.closest('[data-none]');
+    if(nl){
+      var nk = nl.getAttribute('data-none');
+      if(nk==='groups') state.groups={india:false,inv:false,china:false};
+      else if(nk==='cats') state.cats={eb1:false,eb2:false,eb3:false};
+      else if(nk==='years') YEARS.forEach(function(y){ state.years[y]=false; });
+      else if(nk==='months') MONTHS.forEach(function(m){ state.months[m]=false; });
+      render(); return;
+    }
+    var al = e.target.closest('[data-all]');
+    if(al){
+      var ak = al.getAttribute('data-all');
+      if(ak==='groups') state.groups={india:true,inv:true,china:true};
+      else if(ak==='cats') state.cats={eb1:true,eb2:true,eb3:true};
+      else if(ak==='years') YEARS.forEach(function(y){ state.years[y]=true; });
+      else if(ak==='months') MONTHS.forEach(function(m){ state.months[m]=true; });
+      render(); return;
+    }
+    var st = e.target.closest('[data-sort]');
+    if(st){ toggleSort(st.getAttribute('data-sort')); render(); return; }
+    var g = e.target.closest('[data-g]');
+    if(g){ var gid = g.getAttribute('data-g'); state.groups[gid] = !state.groups[gid]; render(); return; }
+    var c = e.target.closest('[data-cat]');
+    if(c){ var cc = c.getAttribute('data-cat'); state.cats[cc] = !state.cats[cc]; render(); return; }
+    var y = e.target.closest('[data-y]');
+    if(y){ var yy = y.getAttribute('data-y'); state.years[yy] = !state.years[yy]; render(); return; }
+    var mo = e.target.closest('[data-m]');
+    if(mo){ var mm = mo.getAttribute('data-m'); state.months[mm] = !state.months[mm]; render(); return; }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key!=='Enter' && e.key!==' ' && e.key!=='Spacebar') return;
+    var t = e.target && e.target.closest ? e.target.closest('[data-sort]') : null;
+    if(t){ e.preventDefault(); toggleSort(t.getAttribute('data-sort')); render(); }
+  });
+  document.getElementById('q').addEventListener('input', function(e){ state.q = e.target.value.trim().toLowerCase(); render(); });
+  document.getElementById('reset').addEventListener('click', function(){
+    state.groups={india:true,inv:true,china:true}; state.cats={eb1:true,eb2:true,eb3:true}; state.q=''; state.sort={key:null,dir:1};
+    document.getElementById('q').value='';
+    YEARS.forEach(function(y){ state.years[y]=true; });
+    MONTHS.forEach(function(m){ state.months[m]=true; });
+    render();
+  });
+  document.getElementById('csv').addEventListener('click', downloadCSV);
+  renderStats();
+  render();
+}
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>
