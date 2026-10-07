@@ -10,16 +10,6 @@
 <meta property="og:description" content="Family-based (F1-F4) green-card approvals by fiscal year for banned-list vs other countries, FY2014-FY2024, with estimated FB-to-EB spillover at 60% and 75% scenario rates.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101012'/%3E%3Crect x='14' y='14' width='36' height='36' rx='6' fill='none' stroke='%230a84ff' stroke-width='4'/%3E%3Cpath d='M14 26h36M32 26v24' stroke='%230a84ff' stroke-width='4'/%3E%3C/svg%3E">
 <title>Family-Based Approvals & EB Spillover Estimates</title>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM1PQ7649Y"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-ZM1PQ7649Y');
-</script>
-  
 <style>
 
 *{box-sizing:border-box}
@@ -172,8 +162,8 @@ var COLS = [
   {id:'b39',  label:'39 Ban',       sub:'excl. overlap', num:true, cls:'bancol',   hcls:'h-purple'},
   {id:'tban', label:'Total Ban', sub:'',               num:true,  cls:'bancol',   hcls:'h-purple'},
   {id:'oth',  label:'Others',    sub:'remaining',      num:true,  cls:'',         hcls:''},
-  {id:'s60',  label:"Banned country's Spillover", sub:'60% of Ban', num:true, cls:'spillcol', hcls:'h-orange'},
-  {id:'s75',  label:"Banned country's Spillover", sub:'75% of Ban', num:true, cls:'spillcol', hcls:'h-orange'}
+  {id:'s60',  label:"Banned country's<br>Spill over", sub:'60% of Ban', num:true, cls:'spillcol', hcls:'h-orange'},
+  {id:'s75',  label:"Banned country's<br>Spill over", sub:'75% of Ban', num:true, cls:'spillcol', hcls:'h-orange'}
 ];
 var KEYS = COLS.map(function(c){ return c.id; });
 var state = { fys:{}, q:'', sort:{key:null, dir:1} };
@@ -214,7 +204,8 @@ function cmpRows(a,b){
 function thFor(c, rowspan){
   var rs = rowspan>1 ? ' rowspan="'+rowspan+'"' : '';
   var cls = (c.id==='fy' ? 'sticky ' : '') + 'sortable' + (c.hcls ? ' '+c.hcls : '');
-  return '<th class="'+cls+'" scope="col"'+rs+' data-sort="'+c.id+'" title="Sort by '+c.label+(c.sub?' ('+c.sub+')':'')+'"'+sortAttrs(c.id)+'>'+c.label+(c.sub?'<span class="thsub">'+c.sub+'</span>':'')+sortInd(c.id)+'</th>';
+  var tip = ('Sort by '+c.label+(c.sub?' ('+c.sub+')':'')).replace(/<[^>]+>/g,' ');
+  return '<th class="'+cls+'" scope="col"'+rs+' data-sort="'+c.id+'" title="'+tip+'"'+sortAttrs(c.id)+'>'+c.label+(c.sub?'<span class="thsub">'+c.sub+'</span>':'')+sortInd(c.id)+'</th>';
 }
 function colById(id){ for(var i=0;i<COLS.length;i++) if(COLS[i].id===id) return COLS[i]; return null; }
 function render(){
